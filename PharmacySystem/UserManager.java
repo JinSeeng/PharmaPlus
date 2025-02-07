@@ -1,4 +1,4 @@
-package PharmacySystem.User;
+package PharmacySystem;
 
 import java.util.ArrayList;
 import java.util.List;

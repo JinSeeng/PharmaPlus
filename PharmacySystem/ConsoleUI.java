@@ -1,12 +1,5 @@
-package PharmacySystem.User;
+package PharmacySystem;
 
-import PharmacySystem.Inventory.Product;
-import PharmacySystem.Inventory.Pharmacy;
-import PharmacySystem.Inventory.StockManager;
-import PharmacySystem.Order.Order;
-import PharmacySystem.Order.OrderManager;
-import PharmacySystem.Order.OrderHistory;
-import PharmacySystem.Data.DataManager;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,6 +19,30 @@ public class ConsoleUI {
         this.userManager = userManager;
         this.scanner = new Scanner(System.in);
         this.currentUser = null; // No user is logged in initially
+    }
+
+    // Utility method to read integer input
+    private int readIntInput(String prompt) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                return Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+    }
+
+    // Utility method to read double input
+    private double readDoubleInput(String prompt) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                return Double.parseDouble(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
     }
 
     // Start a new session (login and main menu)
@@ -55,10 +72,7 @@ public class ConsoleUI {
             System.out.println("9. Save data");
             System.out.println("10. Load data");
             System.out.println("0. Exit");
-            System.out.print("Choose an option: ");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+            int choice = readIntInput("Choose an option: ");
 
             switch (choice) {
                 case 1:
@@ -123,12 +137,19 @@ public class ConsoleUI {
         System.out.println("Invalid username or password. Please try again.");
     }
 
-    // Display the list of products
     private void displayProducts() {
         List<Product> products = stockManager.getProducts();
         System.out.println("\n=== Product List ===");
         for (Product product : products) {
-            System.out.println(product.getName() + " - " + product.getQuantity() + " in stock - " + product.getPrice() + "€");
+            System.out.println(
+                "ID: " + product.getId() + " | " +
+                "Name: " + product.getNom() + " | " +
+                "Price: " + product.getPrix() + "€ | " +
+                "Stock: " + product.getQuantiteStock() + " | " +
+                "Category: " + product.getCategorie() + " | " +
+                "Subcategory: " + product.getSousCategorie() + " | " +
+                "Description: " + product.getDescription()
+            );
         }
     }
 
@@ -138,11 +159,8 @@ public class ConsoleUI {
         String name = scanner.nextLine();
         System.out.print("Category: ");
         String category = scanner.nextLine();
-        System.out.print("Price: ");
-        double price = scanner.nextDouble();
-        System.out.print("Quantity: ");
-        int quantity = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+        double price = readDoubleInput("Price: "); // Utilisation de readDoubleInput
+        int quantity = readIntInput("Quantity: ");
 
         Product newProduct = new Product(stockManager.getProducts().size() + 1, name, price, quantity, category, "", "");
         stockManager.addProduct(newProduct);
@@ -166,7 +184,7 @@ public class ConsoleUI {
 
         Product product = stockManager.findProductByName(name);
         if (product != null) {
-            System.out.println("Product found: " + product.getName() + " - " + product.getQuantity() + " in stock - " + product.getPrice() + "€");
+            System.out.println("Product found: " + product.getNom() + " - " + product.getQuantiteStock() + " in stock - " + product.getPrix() + "€");
         } else {
             System.out.println("Product not found.");
         }
@@ -207,7 +225,7 @@ public class ConsoleUI {
         List<Product> lowStockProducts = stockManager.getLowStockProducts();
         System.out.println("\n=== Low Stock Products ===");
         for (Product product : lowStockProducts) {
-            System.out.println(product.getName() + " - " + product.getQuantity() + " in stock");
+            System.out.println(product.getNom() + " - " + product.getQuantiteStock() + " in stock");
         }
     }
 
@@ -218,7 +236,7 @@ public class ConsoleUI {
         for (Order order : orders) {
             System.out.println("Order:");
             order.getProducts().forEach((product, quantity) -> {
-                System.out.println("  " + product.getName() + " - " + quantity + " units");
+                System.out.println("  " + product.getNom() + " - " + quantity + " units");
             });
         }
     }
@@ -264,15 +282,15 @@ public class ConsoleUI {
 
     // Save data to a JSON file
     private void saveData() {
-        DataManager.saveData(new Pharmacy("PharmaPlus", "123 Health Street, Paris", stockManager.getProducts()), "pharmacy_data.json");
+        DataManager.saveData(new Pharmacy("PharmaPlus", "123 Health Street, Paris", stockManager.getProducts()), "stock_pharma.json");
         System.out.println("Data saved successfully!");
     }
 
     // Load data from a JSON file
     private void loadData() {
-        Pharmacy pharmacy = DataManager.loadData("pharmacy_data.json");
+        Pharmacy pharmacy = DataManager.loadData("stocks_pharma.json");
         if (pharmacy != null) {
-            stockManager = new StockManager(pharmacy.getProducts());
+            stockManager = new StockManager(pharmacy.getProduits());
             System.out.println("Data loaded successfully!");
         } else {
             System.out.println("Error loading data.");

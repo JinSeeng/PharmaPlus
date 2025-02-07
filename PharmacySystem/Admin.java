@@ -1,4 +1,4 @@
-package PharmacySystem.User;
+package PharmacySystem;
 
 public class Admin extends User {
     // Constructor

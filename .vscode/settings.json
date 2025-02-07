@@ -1,9 +1,0 @@
-{
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "gson-2.10.1.jar",
-        "jackson-databind-2.15.2.jar",
-        "jackson-core-2.15.2.jar",
-        "jackson-annotations-2.15.2.jar"
-    ]
-}

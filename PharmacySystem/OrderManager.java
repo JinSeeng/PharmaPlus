@@ -1,7 +1,4 @@
-package PharmacySystem.Order;
-
-import PharmacySystem.Inventory.Product;
-import PharmacySystem.Inventory.StockManager;
+package PharmacySystem;
 
 import java.util.Map;
 
@@ -19,7 +16,7 @@ public class OrderManager {
         for (Map.Entry<Product, Integer> entry : order.getProducts().entrySet()) {
             Product product = entry.getKey(); // Get the product
             int quantity = entry.getValue();  // Get the quantity ordered
-            stockManager.updateStock(product.getId(), product.getQuantity() - quantity); // Update the stock
+            stockManager.updateStock(product.getId(), product.getQuantiteStock() - quantity); // Update the stock
         }
     }
 }

@@ -1,4 +1,4 @@
-package PharmacySystem.Order;
+package PharmacySystem;
 
 import java.util.ArrayList;
 import java.util.List;

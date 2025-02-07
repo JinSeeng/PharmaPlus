@@ -1,4 +1,4 @@
-package PharmacySystem.User;
+package PharmacySystem;
 
 public class Employee extends User {
     // Constructor

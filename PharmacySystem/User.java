@@ -1,4 +1,4 @@
-package PharmacySystem.User;
+package PharmacySystem;
 
 public abstract class User {
     private String username;

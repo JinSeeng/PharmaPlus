@@ -1,6 +1,5 @@
-package PharmacySystem.Order;
+package PharmacySystem;
 
-import PharmacySystem.Inventory.Product;
 import java.util.HashMap;
 import java.util.Map;
 
