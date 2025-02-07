@@ -12,7 +12,7 @@ The main objective is to provide an intuitive and robust **solution** to manage 
 ✅ **User management**: roles and permissions for access to the application.  
 ✅ **Backup and statistics**: data retention and performance analysis.  
 
-### **OOP principles applied**  
+### OOP principles applied  
 
 The project implements several advanced OOP concepts:  
 🔹 **Abstract classes** (User) to define common roles.  
@@ -20,3 +20,11 @@ The project implements several advanced OOP concepts:
 🔹 **Polymorphism** to manage different operations on commands and users.  
 🔹 **Composition and aggregation** to structure relationships between products, categories and orders.  
 🔹 **Search and sorting algorithms** to optimise stock management.  
+
+### Testing the application
+To test the application, you can log in directly in your console using these predefined user accounts:
+
+⚙️ **Administrator account**: Use the username "admin" and the password "admin123". [Only administrators can create/add new users]  
+⚙️ **Employee account**: Use the username "employee" and the password "employee123".
+
+
