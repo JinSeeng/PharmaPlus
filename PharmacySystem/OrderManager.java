@@ -12,11 +12,10 @@ public class OrderManager {
 
     // Place an order and update the stock
     public void placeOrder(Order order) {
-        // Iterate over the entries in the order's product map
         for (Map.Entry<Product, Integer> entry : order.getProducts().entrySet()) {
-            Product product = entry.getKey(); // Get the product
-            int quantity = entry.getValue();  // Get the quantity ordered
-            stockManager.updateStock(product.getId(), product.getQuantiteStock() - quantity); // Update the stock
+            Product product = entry.getKey();
+            int quantity = entry.getValue();
+            stockManager.updateStock(product.getId(), product.getQuantiteStock() - quantity);
         }
     }
 }

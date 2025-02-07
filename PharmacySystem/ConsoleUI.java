@@ -21,32 +21,8 @@ public class ConsoleUI {
         this.currentUser = null; // No user is logged in initially
     }
 
-    // Utility method to read integer input
-    private int readIntInput(String prompt) {
-        while (true) {
-            try {
-                System.out.print(prompt);
-                return Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
-            }
-        }
-    }
-
-    // Utility method to read double input
-    private double readDoubleInput(String prompt) {
-        while (true) {
-            try {
-                System.out.print(prompt);
-                return Double.parseDouble(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
-            }
-        }
-    }
-
-    // Start a new session (login and main menu)
-    public void startSession() {
+    // Start the console interface
+    public void start() {
         // Display welcome message
         System.out.println("=============================================");
         System.out.println("   Welcome to PharmaPlus Management System");
@@ -72,7 +48,10 @@ public class ConsoleUI {
             System.out.println("9. Save data");
             System.out.println("10. Load data");
             System.out.println("0. Exit");
-            int choice = readIntInput("Choose an option: ");
+            System.out.print("Choose an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
 
             switch (choice) {
                 case 1:
@@ -107,8 +86,7 @@ public class ConsoleUI {
                     break;
                 case 0:
                     running = false;
-                    System.out.println("Logging out...");
-                    currentUser = null; // Reset the current user
+                    System.out.println("Thank you for using PharmaPlus. Goodbye!");
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");
@@ -137,6 +115,7 @@ public class ConsoleUI {
         System.out.println("Invalid username or password. Please try again.");
     }
 
+    // Display the list of products
     private void displayProducts() {
         List<Product> products = stockManager.getProducts();
         System.out.println("\n=== Product List ===");
@@ -159,9 +138,13 @@ public class ConsoleUI {
         String name = scanner.nextLine();
         System.out.print("Category: ");
         String category = scanner.nextLine();
-        double price = readDoubleInput("Price: "); // Utilisation de readDoubleInput
-        int quantity = readIntInput("Quantity: ");
+        System.out.print("Price: ");
+        double price = scanner.nextDouble();
+        System.out.print("Quantity: ");
+        int quantity = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
 
+        // Create a new product and add it to the inventory
         Product newProduct = new Product(stockManager.getProducts().size() + 1, name, price, quantity, category, "", "");
         stockManager.addProduct(newProduct);
         System.out.println("Product added successfully!");
@@ -201,13 +184,15 @@ public class ConsoleUI {
             int quantity = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character
 
-            Product product = stockManager.getProducts().stream().filter(p -> p.getId() == id).findFirst().orElse(null);
+            // Find the product by ID
+            Product product = stockManager.findProductById(id);
             if (product != null) {
                 order.addProduct(product, quantity);
             } else {
                 System.out.println("Product not found.");
             }
 
+            // Ask if the user wants to add another product
             System.out.print("Add another product? (y/n): ");
             String response = scanner.nextLine();
             if (!response.equalsIgnoreCase("y")) {
@@ -215,6 +200,7 @@ public class ConsoleUI {
             }
         }
 
+        // Place the order and update the stock
         orderManager.placeOrder(order);
         orderHistory.addOrder(order);
         System.out.println("Order placed successfully!");
@@ -282,13 +268,14 @@ public class ConsoleUI {
 
     // Save data to a JSON file
     private void saveData() {
-        DataManager.saveData(new Pharmacy("PharmaPlus", "123 Health Street, Paris", stockManager.getProducts()), "stock_pharma.json");
+        Pharmacy pharmacy = new Pharmacy("PharmaPlus", "123 Rue de la Santé, Paris", stockManager.getProducts());
+        DataManager.saveData(pharmacy, "pharmacy_data_updated.json");
         System.out.println("Data saved successfully!");
     }
 
     // Load data from a JSON file
     private void loadData() {
-        Pharmacy pharmacy = DataManager.loadData("stocks_pharma.json");
+        Pharmacy pharmacy = DataManager.loadData();
         if (pharmacy != null) {
             stockManager = new StockManager(pharmacy.getProduits());
             System.out.println("Data loaded successfully!");

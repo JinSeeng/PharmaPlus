@@ -30,7 +30,7 @@ public class StockManager {
     public void updateStock(int productId, int newQuantity) {
         for (Product product : products) {
             if (product.getId() == productId) {
-                product.setQuantiteStock(newQuantity); // Use the setter method
+                product.setQuantiteStock(newQuantity);
                 System.out.println("Stock updated for product: " + product.getNom() + " (New quantity: " + newQuantity + ")");
                 return;
             }
