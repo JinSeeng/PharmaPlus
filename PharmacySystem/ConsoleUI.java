@@ -114,22 +114,56 @@ public class ConsoleUI {
         // If no user is found or the password is incorrect
         System.out.println("Invalid username or password. Please try again.");
     }
-
+    
     // Display the list of products
     private void displayProducts() {
         List<Product> products = stockManager.getProducts();
         System.out.println("\n=== Product List ===");
+    
+        // Table header
+        System.out.println("+----+----------------------+--------+-------+---------------+-----------------+--------------------------------+");
+        System.out.println("| ID | Name                 | Price  | Stock | Category       | Subcategory     | Description                    |");
+        System.out.println("+----+----------------------+--------+-------+---------------+-----------------+--------------------------------+");
+    
+        // Display products
         for (Product product : products) {
-            System.out.println(
-                "ID: " + product.getId() + " | " +
-                "Name: " + product.getNom() + " | " +
-                "Price: " + product.getPrix() + "€ | " +
-                "Stock: " + product.getQuantiteStock() + " | " +
-                "Category: " + product.getCategorie() + " | " +
-                "Subcategory: " + product.getSousCategorie() + " | " +
-                "Description: " + product.getDescription()
+            // Truncate fields if necessary
+            String nom = product.getNom();
+            if (nom.length() > 20) {
+                nom = nom.substring(0, 17) + "..."; // Truncate product name to 20 characters
+            }
+    
+            String categorie = product.getCategorie();
+            if (categorie.length() > 13) {
+                categorie = categorie.substring(0, 10) + "..."; // Truncate category to 13 characters
+            }
+    
+            String sousCategorie = product.getSousCategorie();
+            if (sousCategorie.length() > 15) {
+                sousCategorie = sousCategorie.substring(0, 12) + "..."; // Truncate subcategory to 15 characters
+            }
+    
+            String description = product.getDescription();
+            if (description.length() > 30) {
+                description = description.substring(0, 27) + "..."; // Truncate description to 30 characters
+            }
+    
+            // Format the product line
+            String formattedLine = String.format(
+                "| %-2d | %-20s | %-6.2f | %-5d | %-13s | %-15s | %-30s |",
+                product.getId(),
+                nom,
+                product.getPrix(),
+                product.getQuantiteStock(),
+                categorie,
+                sousCategorie,
+                description
             );
+            System.out.println(formattedLine);
         }
+    
+        // Table footer
+        System.out.println("+----+----------------------+--------+-------+---------------+-----------------+--------------------------------+");
     }
 
     // Add a new product to the inventory
