@@ -28,8 +28,8 @@ public class ConsoleUI {
         this.currentUser = null; // No user is logged in initially
     }
 
-    // Start the console interface
-    public void start() {
+    // Start a new session (login and main menu)
+    public void startSession() {
         // Display welcome message
         System.out.println("=============================================");
         System.out.println("   Welcome to PharmaPlus Management System");
@@ -93,7 +93,8 @@ public class ConsoleUI {
                     break;
                 case 0:
                     running = false;
-                    System.out.println("Thank you for using PharmaPlus. Goodbye!");
+                    System.out.println("Logging out...");
+                    currentUser = null; // Reset the current user
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");

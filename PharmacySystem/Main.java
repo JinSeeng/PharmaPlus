@@ -23,8 +23,12 @@ public class Main {
         // Add a default admin user
         userManager.addUser(new Admin("admin", "admin123"));
 
-        // Start the console user interface
+        // Create the console UI
         ConsoleUI consoleUI = new ConsoleUI(stockManager, orderManager, orderHistory, userManager);
-        consoleUI.start();
+
+        // Main loop to restart the session after logout
+        while (true) {
+            consoleUI.startSession(); // Start a new session (login and main menu)
+        }
     }
 }
