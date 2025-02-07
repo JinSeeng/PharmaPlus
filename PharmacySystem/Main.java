@@ -21,7 +21,7 @@ public class Main {
         userManager.addUser(new Admin("admin", "admin123"));
 
         // Add a default employee user
-        userManager.addUser(new Employee("employee", "employee"));
+        userManager.addUser(new Employee("employee", "employee123"));
 
         // Create the console UI and start the session
         ConsoleUI consoleUI = new ConsoleUI(stockManager, orderManager, orderHistory, userManager);
